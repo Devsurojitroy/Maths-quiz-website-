@@ -1,0 +1,213 @@
+you have to copy codes and run ny yourself as i have limited resources to do it 
+
+
+html codes
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Math Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="quiz-container" id="quiz">
+        <div id="quiz-header">
+            <h1>Math Quiz</h1>
+            <div id="timer">Time Left: <span id="time">30</span> seconds</div>
+        </div>
+        <div id="question-container">
+            <h2 id="question">Loading...</h2>
+            <div class="options">
+                <button class="option" onclick="selectOption(0)"></button>
+                <button class="option" onclick="selectOption(1)"></button>
+                <button class="option" onclick="selectOption(2)"></button>
+                <button class="option" onclick="selectOption(3)"></button>
+            </div>
+        </div>
+        <div id="results-container" style="display:none;">
+            <h2>Your Score: <span id="score"></span></h2>
+            <button id="restart-btn" onclick="startQuiz()">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+css code 
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.quiz-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+
+#quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#question-container {
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #0056b3;
+}
+
+#timer {
+    font-size: 1rem;
+}
+
+#results-container {
+    display: none;
+}
+
+#restart-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#restart-btn:hover {
+    background-color: #218838;
+}
+
+
+
+
+JavaScript code
+
+
+// Array of quiz questions with answers
+const quizData = [
+    {
+        question: "What is 5 + 3?",
+        options: ["5", "7", "8", "10"],
+        answer: 2
+    },
+    {
+        question: "What is 10 - 6?",
+        options: ["4", "5", "6", "8"],
+        answer: 0
+    },
+    {
+        question: "What is 7 x 3?",
+        options: ["21", "24", "18", "20"],
+        answer: 0
+    },
+    {
+        question: "What is 12 / 4?",
+        options: ["4", "3", "6", "2"],
+        answer: 1
+    },
+    {
+        question: "What is the square root of 81?",
+        options: ["7", "8", "9", "10"],
+        answer: 2
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let timeLeft = 30;
+let timer;
+
+const questionElement = document.getElementById("question");
+const optionsElements = document.querySelectorAll(".option");
+const scoreElement = document.getElementById("score");
+const timerElement = document.getElementById("time");
+const quizContainer = document.getElementById("quiz");
+const resultsContainer = document.getElementById("results-container");
+
+function startQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    timeLeft = 30;
+    showQuestion();
+    resultsContainer.style.display = "none";
+    quizContainer.style.display = "block";
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        if (timeLeft <= 0) {
+            endQuiz();
+        }
+    }, 1000);
+}
+
+function showQuestion() {
+    const currentQuizData = quizData[currentQuestion];
+    questionElement.textContent = currentQuizData.question;
+    optionsElements.forEach((optionElement, index) => {
+        optionElement.textContent = currentQuizData.options[index];
+    });
+}
+
+function selectOption(selectedOption) {
+    if (quizData[currentQuestion].answer === selectedOption) {
+        score++;
+    }
+
+    currentQuestion++;
+
+    if (currentQuestion < quizData.length) {
+        showQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+function endQuiz() {
+    clearInterval(timer);
+    quizContainer.style.display = "none";
+    resultsContainer.style.display = "block";
+    scoreElement.textContent = score + " / " + quizData.length;
+}
+
+window.onload = startQuiz;
