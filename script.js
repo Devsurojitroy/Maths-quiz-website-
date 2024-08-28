@@ -37,7 +37,7 @@ const questionElement = document.getElementById("question");
 const optionsElements = document.querySelectorAll(".option");
 const scoreElement = document.getElementById("score");
 const timerElement = document.getElementById("time");
-const quizContainer = document.getElementById("quiz");
+const questionContainer = document.getElementById("question-container");
 const resultsContainer = document.getElementById("results-container");
 
 function startQuiz() {
@@ -46,7 +46,7 @@ function startQuiz() {
     timeLeft = 30;
     showQuestion();
     resultsContainer.style.display = "none";
-    quizContainer.style.display = "block";
+    questionContainer.style.display = "block";
     startTimer();
 }
 
@@ -85,7 +85,7 @@ function selectOption(selectedOption) {
 
 function endQuiz() {
     clearInterval(timer);
-    quizContainer.style.display = "none";
+    questionContainer.style.display = "none";
     resultsContainer.style.display = "block";
     scoreElement.textContent = score + " / " + quizData.length;
 }
